@@ -10,8 +10,8 @@ interface CardProps {
 export const Card = ({ children, title, className = '' }: CardProps) => {
   const { t } = useApp();
   return (
-    <div className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 transition-all duration-300 hover:border-orange-500/50 hover:bg-white/10 ${className}`}>
-      {title && <h3 className="text-lg font-semibold text-slate-100 mb-4">{t(title)}</h3>}
+    <div className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 transition-all duration-300 hover:border-orange-500/50 hover:bg-white/10 ${className}`}>
+      {title && <h3 className="text-base font-semibold text-slate-100 mb-3">{t(title)}</h3>}
       {children}
     </div>
   );
@@ -31,14 +31,14 @@ export const KPICard = ({ title, value, subValue, icon: Icon, trend = 'neutral' 
   const bgColor = trend === 'up' ? 'bg-emerald-400/10' : trend === 'down' ? 'bg-rose-400/10' : 'bg-slate-400/10';
 
   return (
-    <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-xl flex items-center gap-4 transition-all duration-300 hover:border-orange-500 hover:bg-white/10 group">
-      <div className={`p-3 rounded-xl ${bgColor} text-slate-200 group-hover:text-orange-400 transition-colors duration-300 flex-shrink-0`}>
-        <Icon className="w-6 h-6" />
+    <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 hover:border-orange-500 hover:bg-white/10 group">
+      <div className={`p-2.5 rounded-xl ${bgColor} text-slate-200 group-hover:text-orange-400 transition-colors duration-300 flex-shrink-0`}>
+        <Icon className="w-5 h-5" />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-slate-400 group-hover:text-slate-300 truncate">{t(title)}</p>
-        <h4 className="text-2xl font-bold text-white tracking-tight truncate">{value}</h4>
-        {subValue && <p className={`text-sm mt-1 ${trendColor}`}>{subValue}</p>}
+        <p className="text-xs font-medium text-slate-400 group-hover:text-slate-300 truncate">{t(title)}</p>
+        <h4 className="text-xl font-bold text-white tracking-tight truncate">{value}</h4>
+        {subValue && <p className={`text-xs mt-0.5 ${trendColor}`}>{subValue}</p>}
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ export const SettingsDashboard = () => {
           </select>
         </div>
         <button onClick={handleSave} disabled={saving}
-          className="px-6 py-3 bg-indigo-600/80 hover:bg-orange-500 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-orange-500/25 border border-transparent hover:border-orange-400 disabled:opacity-50 flex items-center gap-2">
+          className="px-6 py-3 bg-slate-700/80 hover:bg-orange-500 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-orange-500/25 border border-white/10 hover:border-orange-400 disabled:opacity-50 flex items-center gap-2">
           {saving && <Loader2 className="w-4 h-4 animate-spin" />}
           {saving ? t('Loading...') : t('Save Changes')}
         </button>

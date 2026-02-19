@@ -52,7 +52,7 @@ const TEMPLATES: Record<DataType, { headers: string[]; label: string; example: s
 };
 
 const parseCSV = (text: string): { headers: string[]; rows: ParsedRow[] } => {
-  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   if (lines.length < 2) return { headers: [], rows: [] };
   const parseRow = (row: string) =>
     row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(s => s.replace(/^"|"$/g, '').trim());
@@ -66,13 +66,22 @@ const parseCSV = (text: string): { headers: string[]; rows: ParsedRow[] } => {
   return { headers, rows };
 };
 
+const parseNum = (raw: string): number => {
+  if (!raw) return 0;
+  const cleaned = raw.replace(/[, ]/g, '');
+  const n = parseFloat(cleaned);
+  return isNaN(n) ? 0 : n;
+};
+
+const isValidNum = (raw: string) => raw && !isNaN(parseFloat(raw.replace(/[, ]/g, '')));
+
 const validateFinancials = (rows: ParsedRow[]): ValidationError[] => {
   const errors: ValidationError[] = [];
   rows.forEach((row, i) => {
     if (!row['Date'] || isNaN(Date.parse(row['Date']))) errors.push({ row: i + 2, column: 'Date', message: 'Invalid or missing date' });
     if (!['Revenue', 'Expense'].includes(row['Type'])) errors.push({ row: i + 2, column: 'Type', message: 'Must be Revenue or Expense' });
     if (!row['Category']) errors.push({ row: i + 2, column: 'Category', message: 'Category is required' });
-    if (!row['Amount'] || isNaN(Number(row['Amount']))) errors.push({ row: i + 2, column: 'Amount', message: 'Must be a valid number' });
+    if (!isValidNum(row['Amount'])) errors.push({ row: i + 2, column: 'Amount', message: 'Must be a valid number' });
   });
   return errors;
 };
@@ -83,7 +92,7 @@ const validateSales = (rows: ParsedRow[]): ValidationError[] => {
     if (!row['Date'] || isNaN(Date.parse(row['Date']))) errors.push({ row: i + 2, column: 'Date', message: 'Invalid or missing date' });
     if (!row['SalesRep']) errors.push({ row: i + 2, column: 'SalesRep', message: 'Sales rep name required' });
     if (!row['Customer']) errors.push({ row: i + 2, column: 'Customer', message: 'Customer name required' });
-    if (!row['ContractValue'] || isNaN(Number(row['ContractValue']))) errors.push({ row: i + 2, column: 'ContractValue', message: 'Must be a valid number' });
+    if (!isValidNum(row['ContractValue'])) errors.push({ row: i + 2, column: 'ContractValue', message: 'Must be a valid number' });
   });
   return errors;
 };
@@ -93,7 +102,7 @@ const validateFleet = (rows: ParsedRow[]): ValidationError[] => {
   rows.forEach((row, i) => {
     if (!row['Date'] || isNaN(Date.parse(row['Date']))) errors.push({ row: i + 2, column: 'Date', message: 'Invalid or missing date' });
     if (!row['VehicleID']) errors.push({ row: i + 2, column: 'VehicleID', message: 'Vehicle ID required' });
-    if (!row['FuelCost'] || isNaN(Number(row['FuelCost']))) errors.push({ row: i + 2, column: 'FuelCost', message: 'Must be a valid number' });
+    if (!isValidNum(row['FuelCost'])) errors.push({ row: i + 2, column: 'FuelCost', message: 'Must be a valid number' });
   });
   return errors;
 };
@@ -103,7 +112,7 @@ const validateMaintenance = (rows: ParsedRow[]): ValidationError[] => {
   rows.forEach((row, i) => {
     if (!row['Date'] || isNaN(Date.parse(row['Date']))) errors.push({ row: i + 2, column: 'Date', message: 'Invalid or missing date' });
     if (!row['VehicleID']) errors.push({ row: i + 2, column: 'VehicleID', message: 'Vehicle ID required' });
-    if (!row['MaintenanceCost'] || isNaN(Number(row['MaintenanceCost']))) errors.push({ row: i + 2, column: 'MaintenanceCost', message: 'Must be a valid number' });
+    if (!isValidNum(row['MaintenanceCost'])) errors.push({ row: i + 2, column: 'MaintenanceCost', message: 'Must be a valid number' });
   });
   return errors;
 };
@@ -173,7 +182,7 @@ export const DataUploadDashboard = () => {
             date: r['Date'],
             type: r['Type'] as 'Revenue' | 'Expense',
             category: r['Category'] || 'General',
-            amount: parseFloat(r['Amount']) || 0,
+            amount: parseNum(r['Amount']),
             sub_category: r['SubCategory'] || '',
             cost_center: r['CostCenter'] || '',
             period_type: 'Month',
@@ -185,8 +194,8 @@ export const DataUploadDashboard = () => {
             sales_rep: r['SalesRep'] || 'Unknown',
             customer: r['Customer'] || 'Unknown',
             service: r['Service'] || 'General',
-            contract_value: parseFloat(r['ContractValue']) || 0,
-            cost: parseFloat(r['Cost']) || 0,
+            contract_value: parseNum(r['ContractValue']),
+            cost: parseNum(r['Cost']),
           })));
         } else if (type === 'fleet') {
           for (const r of rows) await databaseService.getOrCreateVehicle(r['VehicleID']);
@@ -194,9 +203,9 @@ export const DataUploadDashboard = () => {
             date: r['Date'],
             vehicle_id: r['VehicleID'],
             type: 'Fuel' as 'Fuel',
-            cost: parseFloat(r['FuelCost']) || 0,
-            liters: parseFloat(r['Liters']) || 0,
-            odometer: parseFloat(r['Odometer']) || 0,
+            cost: parseNum(r['FuelCost']),
+            liters: parseNum(r['Liters']),
+            odometer: parseNum(r['Odometer']),
           })));
         } else if (type === 'maintenance') {
           for (const r of rows) await databaseService.getOrCreateVehicle(r['VehicleID']);
@@ -204,7 +213,7 @@ export const DataUploadDashboard = () => {
             date: r['Date'],
             vehicle_id: r['VehicleID'],
             type: (['Routine','Repair','Tires','Other'].includes(r['Type']) ? r['Type'] : 'Other') as 'Routine' | 'Repair' | 'Tires' | 'Other',
-            maintenance_cost: parseFloat(r['MaintenanceCost']) || 0,
+            maintenance_cost: parseNum(r['MaintenanceCost']),
             downtime_days: parseInt(r['DowntimeDays']) || 0,
             notes: r['Notes'] || '',
           })));

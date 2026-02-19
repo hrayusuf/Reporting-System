@@ -31,15 +31,15 @@ export const SalesDashboard = () => {
   }, [sales]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard title="Total Sales" value={formatCurrency(metrics.totalSales)} icon={DollarSign} trend="up" />
         <KPICard title="Total Deals Closed" value={metrics.deals.toString()} icon={CheckCircle2} />
         <KPICard title="Average Deal Size" value={formatCurrency(metrics.avgDeal)} icon={Users} />
         <KPICard title="Best Sales Rep" value={metrics.bestRep} icon={Star} trend="up" />
       </div>
 
-      <Card title="Sales by Representative" className="h-96">
+      <Card title="Sales by Representative" className="h-72">
         <ChartWrapper>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={repData}>
@@ -53,7 +53,7 @@ export const SalesDashboard = () => {
                 itemStyle={chartDarkTheme.itemStyle}
               />
               <Legend formatter={v => v === 'Sales' ? t('Total Sales') : t('Profit')} wrapperStyle={{ color: '#cbd5e1' }} />
-              <Bar dataKey="Sales" fill="#6366f1" radius={[4, 4, 0, 0]} maxBarSize={60} />
+              <Bar dataKey="Sales" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={60} />
               <Bar dataKey="Profit" fill="#f97316" radius={[4, 4, 0, 0]} maxBarSize={60} />
             </BarChart>
           </ResponsiveContainer>

@@ -36,14 +36,14 @@ export const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-[#0f111a] text-slate-200 flex flex-col md:flex-row font-sans relative overflow-hidden" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
 
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-white/5 backdrop-blur-2xl border-e border-white/10 flex flex-col z-20 md:min-h-screen flex-shrink-0 relative">
         <div className="p-6 pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-500/20 border border-indigo-500/30 rounded-xl text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+            <div className="p-2 bg-orange-500/20 border border-orange-500/30 rounded-xl text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
               <LayoutDashboard className="w-6 h-6" />
             </div>
             <h2 className="text-lg font-bold text-white truncate tracking-tight">{profile.name}</h2>
@@ -122,7 +122,7 @@ export const DashboardLayout = () => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 z-10">
+        <div className="flex-1 overflow-y-auto p-4 z-10">
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
@@ -137,7 +137,7 @@ export const DashboardLayout = () => {
                 <p className="text-slate-400 leading-relaxed">Add entries using the buttons above, or generate sample data to see all dashboards in action.</p>
               </div>
               <button onClick={() => setActiveTab('Upload')}
-                className="px-8 py-3.5 bg-indigo-600/80 text-white rounded-xl font-medium hover:bg-orange-500 transition-all duration-300 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] border border-transparent hover:border-orange-400">
+                className="px-8 py-3.5 bg-slate-700/80 text-white rounded-xl font-medium hover:bg-orange-500 transition-all duration-300 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] border border-white/10 hover:border-orange-400">
                 {t('Go to Data Upload')}
               </button>
             </div>

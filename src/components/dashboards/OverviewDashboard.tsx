@@ -56,9 +56,9 @@ export const OverviewDashboard = () => {
   }, [financials, t]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* KPI row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard title="Total Revenue" value={formatCurrency(metrics.rev)} icon={TrendingUp} trend="up" />
         <KPICard title="Total Expenses" value={formatCurrency(metrics.exp)} icon={Activity} trend="down" />
         <KPICard title="Net Profit" value={formatCurrency(metrics.profit)} icon={DollarSign} trend={metrics.profit >= 0 ? 'up' : 'down'} />
@@ -66,8 +66,8 @@ export const OverviewDashboard = () => {
       </div>
 
       {/* Financial trend + expense donut */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card title="Financial Performance Trend" className="lg:col-span-2 h-96">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card title="Financial Performance Trend" className="lg:col-span-2 h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={chartData}>
@@ -84,7 +84,7 @@ export const OverviewDashboard = () => {
           </ChartWrapper>
         </Card>
 
-        <Card title="Expenses Breakdown" className="h-96">
+        <Card title="Expenses Breakdown" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -100,8 +100,8 @@ export const OverviewDashboard = () => {
       </div>
 
       {/* Revenue breakdown + P&L table */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card title="Revenue Breakdown" className="h-80">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card title="Revenue Breakdown" className="h-64">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -115,7 +115,7 @@ export const OverviewDashboard = () => {
           </ChartWrapper>
         </Card>
 
-        <Card title="P&L Summary" className="lg:col-span-2 h-80">
+        <Card title="P&L Summary" className="lg:col-span-2 h-64">
           <div className="overflow-x-auto h-full flex flex-col justify-center">
             <table className="w-full text-sm">
               <thead>

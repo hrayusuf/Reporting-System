@@ -36,10 +36,10 @@ export const Top10Dashboard = () => {
   }, [sales, financials, t]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {/* TOP 10 CUSTOMERS */}
       <div className="space-y-4">
-        <Card title="Top 10 Customers (Revenue)" className="h-[380px]">
+        <Card title="Top 10 Customers (Revenue)" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topCustomers} layout="vertical" margin={{ left: 10 }}>
@@ -106,7 +106,7 @@ export const Top10Dashboard = () => {
 
       {/* TOP 10 EXPENSES */}
       <div className="space-y-4">
-        <Card title="Top 10 Expense Categories" className="h-[380px]">
+        <Card title="Top 10 Expense Categories" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topExpenses} layout="vertical" margin={{ left: 10 }}>

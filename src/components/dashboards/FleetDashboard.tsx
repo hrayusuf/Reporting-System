@@ -69,8 +69,8 @@ export const FleetDashboard = () => {
   }, [fleet, maintenance, t]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard title="Total Fuel Cost" value={formatCurrency(metrics.totalFuel)} icon={Truck} />
         <KPICard title="Total Maintenance Cost" value={formatCurrency(metrics.totalMaint)} icon={AlertCircle} />
         <KPICard title="Total Operating Cost" value={formatCurrency(metrics.total)} icon={Car} trend="down" />
@@ -78,8 +78,8 @@ export const FleetDashboard = () => {
       </div>
 
       {/* Cost by vehicle + Trend */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card title="Operating Cost by Vehicle" className="h-96">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card title="Operating Cost by Vehicle" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={vehicleData}>
@@ -95,7 +95,7 @@ export const FleetDashboard = () => {
           </ChartWrapper>
         </Card>
 
-        <Card title="Monthly Fleet Cost Trend" className="h-96">
+        <Card title="Monthly Fleet Cost Trend" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData}>
@@ -113,8 +113,8 @@ export const FleetDashboard = () => {
       </div>
 
       {/* Top vehicles + pie */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card title="Top Vehicles by Cost" className="lg:col-span-2 h-96">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card title="Top Vehicles by Cost" className="lg:col-span-2 h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topVehicles} layout="vertical" margin={{ left: 10 }}>
@@ -128,7 +128,7 @@ export const FleetDashboard = () => {
           </ChartWrapper>
         </Card>
 
-        <Card title="Operating Cost Breakdown" className="h-96">
+        <Card title="Operating Cost Breakdown" className="h-72">
           <ChartWrapper>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
